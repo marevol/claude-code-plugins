@@ -11,13 +11,13 @@
     {
       "name": "marevol",
       "source": "./plugins/marevol",
-      "description": "13 specialized agents and 7 development workflow skills for software engineering teams",
+      "description": "14 specialized agents and 7 development workflow skills for software engineering teams",
       "version": "1.0.0",
       "author": {
         "name": "Shinsuke Sugaya"
       },
       "license": "Apache-2.0",
-      "keywords": ["agents", "skills", "development", "workflow", "code-review", "testing", "security"],
+      "keywords": ["agents", "skills", "development", "workflow", "code-review", "testing", "security", "qa"],
       "category": "development",
       "tags": ["multi-agent", "engineering-workflow", "devops", "ai-agents"]
     }

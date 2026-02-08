@@ -16,6 +16,7 @@ Specialized agents that Claude Code can delegate tasks to based on context:
 | **fullstack-engineer** | End-to-end feature development spanning frontend and backend |
 | **code-reviewer** | Comprehensive code review, quality analysis, and technical debt evaluation |
 | **test-engineer** | Test strategy design, test implementation, and coverage analysis |
+| **tester** | QA testing, test execution, browser-based validation, and accessibility auditing |
 | **security-engineer** | Security assessment, vulnerability analysis, and threat modeling |
 | **performance-engineer** | Performance profiling, optimization, and benchmarking |
 | **devops-engineer** | CI/CD pipelines, infrastructure as code, and cloud operations |

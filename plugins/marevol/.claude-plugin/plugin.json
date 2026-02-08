@@ -6,5 +6,5 @@
     "name": "Shinsuke Sugaya"
   },
   "license": "Apache-2.0",
-  "keywords": ["agents", "skills", "development", "workflow", "code-review", "testing", "security"]
+  "keywords": ["agents", "skills", "development", "workflow", "code-review", "testing", "security", "qa"]
 }
