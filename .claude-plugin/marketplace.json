@@ -1,0 +1,23 @@
+{
+  "name": "marevol-plugins",
+  "metadata": {
+    "description": "A curated marketplace of Claude Code plugins providing specialized agents and development workflow skills",
+    "version": "1.0.0"
+  },
+  "owner": {
+    "name": "Shinsuke Sugaya"
+  },
+  "plugins": [
+    {
+      "name": "marevol",
+      "source": "./plugins/marevol",
+      "description": "13 specialized agents and 7 development workflow skills for software engineering teams",
+      "version": "1.0.0",
+      "author": "Shinsuke Sugaya",
+      "license": "Apache-2.0",
+      "keywords": ["agents", "skills", "development", "workflow", "code-review", "testing", "security"],
+      "category": "development",
+      "tags": ["multi-agent", "engineering-workflow", "devops", "ai-agents"]
+    }
+  ]
+}
