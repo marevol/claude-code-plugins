@@ -1,16 +1,9 @@
 ---
 name: backend-engineer
 description: >
-  Use this agent when you need server-side implementation, API development, database operations,
-  search engine integration, or backend service development in any language.
-  <example>Context: User needs to implement a new REST API endpoint with database integration.
-  user: 'I need to create a REST API for user management with CRUD operations using Spring Boot and PostgreSQL.'
-  assistant: 'I will use the backend-engineer agent to implement the user management REST API with Spring Boot and PostgreSQL.'
-  <commentary>Since the user needs server-side API implementation with database integration, use the backend-engineer agent which specializes in backend development across multiple languages and frameworks.</commentary></example>
-  <example>Context: User needs to optimize OpenSearch queries and indexing.
-  user: 'Our search queries are slow and returning inconsistent results. I need help optimizing the OpenSearch integration.'
-  assistant: 'Let me use the backend-engineer agent to analyze and optimize your OpenSearch integration for better performance and consistency.'
-  <commentary>Search engine integration and optimization is a backend concern, making the backend-engineer agent the right choice for this task.</commentary></example>
+  Senior backend engineer for server-side implementation, API development, database operations,
+  and backend services. Use proactively for any server-side coding task involving APIs, databases,
+  search engines, or backend business logic.
 color: green
 ---
 

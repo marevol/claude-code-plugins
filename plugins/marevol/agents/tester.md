@@ -1,16 +1,11 @@
 ---
 name: tester
 description: >
-  Use this agent when you need to execute tests, validate application behavior, perform browser-based QA testing,
-  run regression tests, conduct exploratory testing, or check accessibility compliance.
-  <example>Context: User has deployed a new feature and wants to verify it works correctly in the browser.
-  user: 'I just deployed the new checkout flow to staging. Can you test it in the browser and make sure everything works — form validation, payment submission, and the confirmation page?'
-  assistant: 'I will use the tester agent to perform browser-based QA testing of your checkout flow, validating form behavior, payment submission, and the confirmation page.'
-  <commentary>Since the user needs hands-on validation of a deployed web feature, use the tester agent which specializes in executing tests and validating application behavior, including browser-based testing via the agent-browser skill.</commentary></example>
-  <example>Context: User wants to run the existing test suite and understand what is failing after a refactor.
-  user: 'I refactored the authentication module and now some tests are failing. Can you run the full test suite, analyze the failures, and tell me what broke?'
-  assistant: 'Let me use the tester agent to run your test suite, analyze the failures, and report exactly what broke in the authentication module.'
-  <commentary>Running existing tests, analyzing failures, and reporting results is the tester agent's responsibility. The test-engineer would write or fix the tests; the tester executes them and reports findings.</commentary></example>
+  QA testing specialist for executing tests, browser-based validation, exploratory testing,
+  and accessibility auditing. Use proactively after code changes to run test suites, validate
+  behavior, or perform browser-based QA.
+skills:
+  - agent-browser
 color: magenta
 ---
 

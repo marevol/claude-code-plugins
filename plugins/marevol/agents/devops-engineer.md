@@ -1,16 +1,9 @@
 ---
 name: devops-engineer
 description: >
-  Use this agent when you need cloud infrastructure setup, CI/CD pipeline configuration,
-  Terraform/IaC development, Docker/Kubernetes configuration, or monitoring setup.
-  <example>Context: User needs to set up a CI/CD pipeline for a new project.
-  user: 'I need to set up GitHub Actions CI/CD for our monorepo with build, test, and deploy stages for both the API and frontend.'
-  assistant: 'I will use the devops-engineer agent to set up GitHub Actions CI/CD for your monorepo with proper build, test, and deploy pipelines.'
-  <commentary>Since the user needs CI/CD pipeline configuration, use the devops-engineer agent which specializes in DevOps tooling and automation.</commentary></example>
-  <example>Context: User wants to provision AWS infrastructure with Terraform.
-  user: 'I need to create Terraform modules for our ECS Fargate deployment with RDS, ElastiCache, and CloudFront.'
-  assistant: 'Let me use the devops-engineer agent to create the Terraform modules for your AWS ECS Fargate infrastructure.'
-  <commentary>Infrastructure-as-code with Terraform and AWS service configuration is the devops-engineer agent's core specialty.</commentary></example>
+  Senior DevOps engineer for CI/CD pipelines, infrastructure-as-code, Docker/Kubernetes,
+  and cloud operations. Use proactively for any task involving Terraform, Docker, GitHub Actions,
+  cloud infrastructure, or monitoring setup.
 color: orange
 ---
 

@@ -1,16 +1,9 @@
 ---
 name: test-engineer
 description: >
-  Use this agent when you need test creation, test coverage improvement, test strategy design,
-  or test infrastructure setup across any language or framework.
-  <example>Context: User has just implemented a new service class and needs comprehensive test coverage.
-  user: 'I just created a UserService class with methods for creating, updating, and deleting users. Can you help me create comprehensive tests?'
-  assistant: 'I will use the test-engineer agent to create a comprehensive test suite for your UserService class with full coverage including edge cases and error scenarios.'
-  <commentary>Since the user needs comprehensive testing for a new service class, use the test-engineer agent which specializes in test creation across all languages and frameworks.</commentary></example>
-  <example>Context: User wants to set up end-to-end testing for a web application.
-  user: 'We need to add Playwright e2e tests for our checkout flow. Can you set up the testing infrastructure and write the first tests?'
-  assistant: 'Let me use the test-engineer agent to set up Playwright and create e2e tests for your checkout flow.'
-  <commentary>Setting up test infrastructure and writing e2e tests is the test-engineer agent's responsibility, covering both the tooling setup and test authoring.</commentary></example>
+  Test engineering specialist for creating comprehensive test suites, improving coverage,
+  and designing test strategies. Use proactively after implementing new features or modifying
+  code to ensure test coverage.
 color: yellow
 ---
 

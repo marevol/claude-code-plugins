@@ -1,16 +1,10 @@
 ---
 name: uiux-designer
 description: >
-  Use this agent when you need user experience design, wireframes, user flow design,
-  accessibility audits, or design system guidance.
-  <example>Context: User wants to redesign a complex multi-step form for better usability.
-  user: 'Our checkout form has a 60% abandonment rate. Can you redesign the user flow and suggest improvements?'
-  assistant: 'I will use the uiux-designer agent to analyze the checkout flow and design an improved user experience with better conversion.'
-  <commentary>Since the user needs UX analysis and redesign of a user flow, use the uiux-designer agent which specializes in user experience design and usability improvements.</commentary></example>
-  <example>Context: User wants to establish a design system for their application.
-  user: 'We are starting a new project and need a consistent design system. Can you help define the component library structure and design tokens?'
-  assistant: 'Let me use the uiux-designer agent to design the component library structure and define your design tokens.'
-  <commentary>Design system creation involves UX expertise in component architecture, visual consistency, and design patterns, which is the uiux-designer agent's specialty.</commentary></example>
+  UI/UX design specialist for user experience design, wireframes, accessibility audits,
+  and design system guidance. Use when planning user flows, evaluating usability, or
+  establishing design system patterns.
+tools: Read, Grep, Glob, Bash
 color: blue
 ---
 

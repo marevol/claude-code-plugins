@@ -1,16 +1,11 @@
 ---
 name: tech-writer
 description: >
-  Use this agent when you need documentation creation or updates, including README files, API specifications,
-  architecture documents, user guides, changelogs, or code documentation.
-  <example>Context: User wants to create comprehensive API documentation.
-  user: 'I need to generate OpenAPI documentation for our REST API and write a developer guide for integrating with it.'
-  assistant: 'I will use the tech-writer agent to create the OpenAPI specification and developer integration guide for your REST API.'
-  <commentary>Since the user needs API documentation and a developer guide, use the tech-writer agent which specializes in technical documentation across all formats.</commentary></example>
-  <example>Context: User needs to update project documentation after a major refactoring.
-  user: 'We just finished migrating from monolith to microservices. The README, architecture docs, and setup guide are all outdated.'
-  assistant: 'Let me use the tech-writer agent to update your README, architecture documentation, and setup guide to reflect the new microservices architecture.'
-  <commentary>Comprehensive documentation updates across multiple document types is the tech-writer agent's core responsibility.</commentary></example>
+  Technical writing specialist for documentation, API specs, architecture diagrams, and
+  developer guides. Use proactively after significant code changes to create or update
+  README, API docs, ADRs, or user guides.
+tools: Read, Grep, Glob, Bash, Write, Edit
+model: sonnet
 color: purple
 ---
 
