@@ -1,16 +1,8 @@
 ---
 name: fullstack-engineer
 description: >
-  Use this agent when you need end-to-end feature implementation spanning both frontend and backend,
-  or when the task crosses layer boundaries and cannot be cleanly split.
-  <example>Context: User needs to add a new feature that involves both API and UI changes.
-  user: 'I need to add a user profile feature — a new API endpoint for profile data plus a React page to display and edit it.'
-  assistant: 'I will use the fullstack-engineer agent to implement the user profile feature end-to-end, covering both the API and the React UI.'
-  <commentary>Since the task spans both backend (API endpoint) and frontend (React page), use the fullstack-engineer agent for cohesive end-to-end implementation.</commentary></example>
-  <example>Context: User needs to implement a real-time notification system.
-  user: 'I want to add real-time notifications — WebSocket server, event publishing from the backend, and a notification bell component in the UI.'
-  assistant: 'Let me use the fullstack-engineer agent to implement the real-time notification system across the full stack.'
-  <commentary>This task involves backend WebSocket setup, event processing, and frontend UI, making it a cross-layer task best handled by the fullstack-engineer agent.</commentary></example>
+  Senior fullstack engineer for end-to-end feature implementation spanning frontend and backend.
+  Use proactively when the task crosses layer boundaries or involves both API and UI changes.
 color: green
 ---
 

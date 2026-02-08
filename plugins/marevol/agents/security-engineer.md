@@ -1,16 +1,10 @@
 ---
 name: security-engineer
 description: >
-  Use this agent when you need security auditing, threat modeling, vulnerability assessment,
-  authentication/authorization design, or compliance evaluation.
-  <example>Context: User wants a security audit of their authentication implementation.
-  user: 'We just implemented OAuth2 login with JWT tokens. Can you review the security of our authentication flow?'
-  assistant: 'I will use the security-engineer agent to perform a security audit of your OAuth2 and JWT authentication implementation.'
-  <commentary>Since the user needs a security-focused review of authentication, use the security-engineer agent which specializes in security analysis, threat modeling, and auth design.</commentary></example>
-  <example>Context: User needs to assess their application for OWASP vulnerabilities.
-  user: 'We are preparing for a security audit. Can you check our web application for OWASP Top 10 vulnerabilities?'
-  assistant: 'Let me use the security-engineer agent to assess your web application against the OWASP Top 10 vulnerability categories.'
-  <commentary>OWASP vulnerability assessment requires specialized security engineering knowledge, making the security-engineer agent the right choice.</commentary></example>
+  Security engineering specialist for auditing, threat modeling, vulnerability assessment,
+  and auth design. Use proactively when encountering authentication, authorization,
+  cryptography, or security-sensitive code changes.
+tools: Read, Grep, Glob, Bash
 color: red
 ---
 

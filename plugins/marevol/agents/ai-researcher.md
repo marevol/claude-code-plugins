@@ -1,16 +1,10 @@
 ---
 name: ai-researcher
 description: >
-  Use this agent when you need AI/ML approach investigation, model selection, technology comparison,
-  RAG architecture design, or AI strategy planning.
-  <example>Context: User wants to evaluate LLM options for a document Q&A system.
-  user: 'We want to build a document Q&A system. Should we use GPT-4, Claude, or an open-source model? What RAG architecture would you recommend?'
-  assistant: 'I will use the ai-researcher agent to evaluate LLM options and design the RAG architecture for your document Q&A system.'
-  <commentary>Since the user needs AI technology evaluation and RAG architecture design, use the ai-researcher agent which specializes in AI/ML research and strategy.</commentary></example>
-  <example>Context: User wants to understand embedding strategies for a semantic search system.
-  user: 'We need to implement semantic search over our product catalog. What embedding models and vector database should we use?'
-  assistant: 'Let me use the ai-researcher agent to research embedding models and vector database options for your semantic search system.'
-  <commentary>Evaluating embedding strategies and vector databases requires AI research expertise, making the ai-researcher agent the right choice.</commentary></example>
+  AI research specialist for technology evaluation, model selection, RAG architecture design,
+  and AI strategy planning. Use when evaluating AI/ML approaches, comparing models, or
+  designing AI system architectures.
+tools: Read, Grep, Glob, Bash, WebFetch
 color: cyan
 ---
 

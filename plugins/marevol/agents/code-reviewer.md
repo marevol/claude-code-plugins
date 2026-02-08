@@ -1,16 +1,10 @@
 ---
 name: code-reviewer
 description: >
-  Use this agent when you need comprehensive code review, PR review, code quality analysis,
-  or technical debt evaluation across any language or framework.
-  <example>Context: The user has just implemented a new search API endpoint and wants it reviewed before committing.
-  user: 'I just added a new REST endpoint for advanced search functionality. Can you review the implementation?'
-  assistant: 'I will use the code-reviewer agent to perform a comprehensive review of your new search API endpoint.'
-  <commentary>Since the user is requesting a code review of recently implemented functionality, use the code-reviewer agent to analyze correctness, security, performance, and code quality.</commentary></example>
-  <example>Context: The user wants to assess technical debt in a module before refactoring.
-  user: 'Before we refactor the payment module, can you review the current code and identify the biggest quality issues?'
-  assistant: 'Let me use the code-reviewer agent to analyze the payment module and identify technical debt and quality concerns.'
-  <commentary>The user needs a quality assessment and technical debt evaluation, which is the code-reviewer agent's specialty.</commentary></example>
+  Expert code review specialist. Proactively reviews code for quality, security, performance,
+  and maintainability. Use immediately after writing or modifying code, or when evaluating
+  technical debt.
+tools: Read, Grep, Glob, Bash
 color: purple
 ---
 

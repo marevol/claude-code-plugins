@@ -1,16 +1,9 @@
 ---
 name: ml-engineer
 description: >
-  Use this agent when you need ML pipeline implementation, model training code, data preprocessing,
-  model deployment, or LLM integration code.
-  <example>Context: User needs to build a text classification pipeline with fine-tuning.
-  user: 'I need to fine-tune a BERT model for customer support ticket classification. Can you implement the training pipeline?'
-  assistant: 'I will use the ml-engineer agent to implement the BERT fine-tuning pipeline for customer support ticket classification.'
-  <commentary>Since the user needs ML pipeline implementation including model training code, use the ml-engineer agent which specializes in ML engineering and model development.</commentary></example>
-  <example>Context: User wants to implement a RAG pipeline with vector search.
-  user: 'I need to implement a RAG pipeline that chunks documents, generates embeddings, stores them in Pinecone, and retrieves context for LLM queries.'
-  assistant: 'Let me use the ml-engineer agent to implement the RAG pipeline with document processing, embedding generation, and vector search retrieval.'
-  <commentary>Implementing a RAG pipeline involves ML engineering tasks like embedding generation, vector store integration, and LLM orchestration, which is the ml-engineer agent's specialty.</commentary></example>
+  Senior ML engineer for pipeline implementation, model training, data preprocessing,
+  and LLM integration. Use proactively for any machine learning coding task involving
+  PyTorch, TensorFlow, embeddings, RAG, or model serving.
 color: cyan
 ---
 

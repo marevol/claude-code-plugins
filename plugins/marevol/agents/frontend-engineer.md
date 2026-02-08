@@ -1,16 +1,9 @@
 ---
 name: frontend-engineer
 description: >
-  Use this agent when you need client-side UI implementation, web application development,
-  mobile app screens, or frontend component development.
-  <example>Context: User needs to build a responsive dashboard with React and Next.js.
-  user: 'I need to create an admin dashboard with data tables, charts, and real-time updates using Next.js and Tailwind CSS.'
-  assistant: 'I will use the frontend-engineer agent to implement the admin dashboard with Next.js and Tailwind CSS.'
-  <commentary>Since the user needs client-side UI implementation with a specific frontend stack, use the frontend-engineer agent which specializes in modern frontend development.</commentary></example>
-  <example>Context: User needs to fix accessibility issues in an existing web app.
-  user: 'Our web app fails several WCAG 2.1 AA accessibility checks. I need help fixing the form components and navigation.'
-  assistant: 'Let me use the frontend-engineer agent to fix the accessibility issues in your form components and navigation.'
-  <commentary>Accessibility implementation in web components is a frontend engineering concern, making the frontend-engineer agent the right choice.</commentary></example>
+  Senior frontend engineer for client-side UI implementation, web and mobile development,
+  and component creation. Use proactively for any frontend coding task involving React, Vue,
+  CSS, accessibility, or UI performance.
 color: green
 ---
 
