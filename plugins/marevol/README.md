@@ -38,6 +38,8 @@ Slash commands for common development workflows:
 | `/create-my-adr` | Generate an Architecture Decision Record (ADR) |
 | `/check-my-deps` | Check dependency health, outdated packages, and security advisories |
 | `/security-scan` | Scan code for security vulnerabilities and hardcoded secrets |
+| `/codex-review` | Review gate using Codex CLI (read-only) to iterate review and fix until convergence |
+| `/gemini-review` | Review gate using Gemini CLI (read-only) to iterate review and fix until convergence |
 
 ## Installation
 

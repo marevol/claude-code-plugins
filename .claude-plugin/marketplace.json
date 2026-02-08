@@ -11,7 +11,7 @@
     {
       "name": "marevol",
       "source": "./plugins/marevol",
-      "description": "14 specialized agents and 7 development workflow skills for software engineering teams",
+      "description": "14 specialized agents and 9 development workflow skills for software engineering teams",
       "version": "1.0.0",
       "author": {
         "name": "Shinsuke Sugaya"

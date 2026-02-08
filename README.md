@@ -20,7 +20,7 @@ A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en
 
 ### marevol
 
-A comprehensive Claude Code plugin providing 14 specialized agents and 7 development workflow skills for software engineering teams.
+A comprehensive Claude Code plugin providing 14 specialized agents and 9 development workflow skills for software engineering teams.
 
 #### Agents
 
@@ -52,6 +52,8 @@ A comprehensive Claude Code plugin providing 14 specialized agents and 7 develop
 | `/create-my-adr` | Generate an Architecture Decision Record (ADR) |
 | `/check-my-deps` | Check dependency health, outdated packages, and security advisories |
 | `/security-scan` | Scan code for security vulnerabilities and hardcoded secrets |
+| `/codex-review` | Review gate using Codex CLI (read-only) to iterate review and fix until convergence |
+| `/gemini-review` | Review gate using Gemini CLI (read-only) to iterate review and fix until convergence |
 
 For more details, see the [marevol plugin README](plugins/marevol/README.md).
 
@@ -66,7 +68,7 @@ claude-code-plugins/
 │       ├── .claude-plugin/
 │       │   └── plugin.json       # Plugin configuration
 │       ├── agents/               # 14 specialized agent definitions
-│       ├── skills/               # 7 development workflow skills
+│       ├── skills/               # 9 development workflow skills
 │       └── README.md             # Plugin documentation
 ├── LICENSE                       # Apache License 2.0
 └── README.md                     # This file
