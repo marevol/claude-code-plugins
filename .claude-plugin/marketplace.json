@@ -13,7 +13,9 @@
       "source": "./plugins/marevol",
       "description": "13 specialized agents and 7 development workflow skills for software engineering teams",
       "version": "1.0.0",
-      "author": "Shinsuke Sugaya",
+      "author": {
+        "name": "Shinsuke Sugaya"
+      },
       "license": "Apache-2.0",
       "keywords": ["agents", "skills", "development", "workflow", "code-review", "testing", "security"],
       "category": "development",
