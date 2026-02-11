@@ -24,6 +24,7 @@ Specialized agents that Claude Code can delegate tasks to based on context:
 | **ai-researcher** | AI/ML technology evaluation and RAG/agent architecture design |
 | **uiux-designer** | User flow diagrams, wireframe specs, and accessibility audit reports |
 | **tech-writer** | README, API docs, ADRs, and developer guides (documentation gate) |
+| **tech-translator** | Translate technical documents between languages preserving accuracy and formatting |
 
 ### Skills
 
