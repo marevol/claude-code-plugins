@@ -10,20 +10,20 @@ Specialized agents that Claude Code can delegate tasks to based on context:
 
 | Agent | Description |
 |---|---|
-| **solution-architect** | System design, architecture planning, and technology selection |
-| **backend-engineer** | Server-side development across multiple languages and frameworks |
-| **frontend-engineer** | Client-side development with modern web technologies |
-| **fullstack-engineer** | End-to-end feature development spanning frontend and backend |
-| **code-reviewer** | Comprehensive code review, quality analysis, and technical debt evaluation |
-| **test-engineer** | Test strategy design, test implementation, and coverage analysis |
-| **tester** | QA testing, test execution, browser-based validation, and accessibility auditing |
-| **security-engineer** | Security assessment, vulnerability analysis, and threat modeling |
-| **performance-engineer** | Performance profiling, optimization, and benchmarking |
-| **devops-engineer** | CI/CD pipelines, infrastructure as code, and cloud operations |
-| **ml-engineer** | Machine learning model development, training, and deployment |
-| **ai-researcher** | AI/ML technology research, LLM evaluation, and RAG architecture |
-| **uiux-designer** | UX design, accessibility standards, and design system methodology |
-| **tech-writer** | Technical documentation, API docs, and architecture diagrams |
+| **solution-architect** | C4 architecture diagrams, ADRs, and technology comparison matrices |
+| **backend-engineer** | Production-quality server-side code with Spring Boot, FastAPI, Go |
+| **frontend-engineer** | Accessible, performant UI with React/Next.js, Vue/Nuxt, TypeScript |
+| **fullstack-engineer** | End-to-end features spanning API and UI with type-safe integration |
+| **code-reviewer** | Structured code audit reports with severity-classified findings (quality gate) |
+| **test-engineer** | Comprehensive test suites with coverage analysis (test coverage gate) |
+| **tester** | Test execution, browser-based QA, and exploratory testing with bug reports |
+| **security-engineer** | STRIDE threat modeling and OWASP vulnerability assessment (security gate) |
+| **performance-engineer** | Bottleneck identification and optimization reports (performance gate) |
+| **devops-engineer** | Terraform modules, Dockerfiles, GitHub Actions, and monitoring configs |
+| **ml-engineer** | ML pipelines, model serving, RAG systems, and LLM integrations |
+| **ai-researcher** | AI/ML technology evaluation and RAG/agent architecture design |
+| **uiux-designer** | User flow diagrams, wireframe specs, and accessibility audit reports |
+| **tech-writer** | README, API docs, ADRs, and developer guides (documentation gate) |
 
 ### Skills
 
