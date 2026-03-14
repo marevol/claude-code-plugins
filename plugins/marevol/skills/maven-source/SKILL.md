@@ -28,8 +28,8 @@ Retrieve and display Java source code from the Maven local repository (`~/.m2/re
 2. **Locate the artifact**
    Based on the input type:
    - **Maven coordinates**: Navigate directly to `~/.m2/repository/{groupId with dots replaced by /}/{artifactId}/{version}/`
-   - **Artifact name**: Run `find ~/.m2/repository -maxdepth 4 -type d -name "{artifactId}"` to find candidate directories
-   - **Class name**: If fully-qualified (contains dots and last segment is capitalized), convert package to path and search with `find ~/.m2/repository -maxdepth 8 -name "*-sources.jar" | head -20` then `jar tf {jar} | grep "{ClassName}.java$"`
+   - **Artifact name**: Run `find ~/.m2/repository -maxdepth 8 -type d -name "{artifactId}"` to find candidate directories
+   - **Class name**: If fully-qualified (contains dots and last segment is capitalized), convert package to path and search with `find ~/.m2/repository -maxdepth 12 -name "*-sources.jar" | head -20` then `jar tf {jar} | grep "{ClassName}.java$"`
 
 3. **Select version**
    - If a specific version was provided, use it directly
