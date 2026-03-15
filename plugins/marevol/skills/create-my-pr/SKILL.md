@@ -2,7 +2,6 @@
 name: create-my-pr
 description: Create a new branch from staged files and submit a pull request
 user-invocable: true
-model: sonnet
 allowed-tools:
   - Bash
   - Read

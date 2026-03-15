@@ -5,7 +5,6 @@ description: >
   preserving technical accuracy and terminology. Use when localizing documentation, creating
   multilingual versions, or translating code comments and UI strings.
 tools: Read, Grep, Glob, Bash, Write, Edit
-model: sonnet
 color: green
 ---
 
