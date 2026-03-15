@@ -2,7 +2,6 @@
 name: create-my-commit
 description: Commit staged files to the current branch
 user-invocable: true
-model: sonnet
 allowed-tools:
   - Bash
   - Read

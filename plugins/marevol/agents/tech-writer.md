@@ -5,7 +5,6 @@ description: >
   conventions. Use as a documentation gate after completing features, creating new modules,
   or when API docs need updating.
 tools: Read, Grep, Glob, Bash, Write, Edit
-model: sonnet
 color: purple
 ---
 
