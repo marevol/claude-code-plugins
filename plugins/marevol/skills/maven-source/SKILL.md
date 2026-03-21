@@ -1,9 +1,9 @@
 ---
 name: maven-source
 description: >
-  Retrieve and display Java source code from Maven local repository (~/.m2/repository/).
-  Use when the user wants to look up Java library source code, find a class implementation,
-  or browse source files from Maven dependencies.
+  Browse Java source code from Maven local repository (~/.m2/repository/).
+  TRIGGER when: user mentions Maven coordinates, asks to view/read/show library or dependency source code, or references ~/.m2.
+  DO NOT TRIGGER when: asking about project source files or non-Maven projects.
 user-invocable: true
 allowed-tools:
   - Bash
