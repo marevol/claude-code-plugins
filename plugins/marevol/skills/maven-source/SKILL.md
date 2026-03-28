@@ -1,8 +1,8 @@
 ---
 name: maven-source
 description: >
-  Look up dependency library source code in ~/.m2/repository/ during code investigation.
-  TRIGGER when: investigating how a dependency class/method works, tracing behavior into a library, or needing to read third-party source code.
+  Use when reading or investigating source code of a Maven/Java dependency library from ~/.m2/repository/.
+  TRIGGER when: user asks to show, read, or trace into a dependency's source code, wants to understand how a library class or method works internally, references a third-party class like "show me RestTemplate source" or "how does ObjectMapper work", or needs to browse a sources JAR.
   DO NOT TRIGGER when: the target code is within the project itself.
 user-invocable: true
 allowed-tools:
