@@ -45,7 +45,8 @@ Iterative review gate: Codex audits (read-only), Claude Code fixes, re-review un
 
    [APPEND OUTPUT SCHEMA]
    ```
-   - Execute `codex exec --sandbox read-only "<PROMPT>"` and wait for completion
+   - Execute `codex exec --sandbox read-only "<PROMPT>" < /dev/null` and wait for completion
+   - **Important**: Always append `< /dev/null` to prevent stdin hang. Do NOT use Bash tool's `run_in_background: true` with codex exec.
 
 3. **Run diff review**
    - Build the following prompt, replacing `{placeholders}` with actual values, and append the output schema:
@@ -63,7 +64,8 @@ Iterative review gate: Codex audits (read-only), Claude Code fixes, re-review un
 
    [APPEND OUTPUT SCHEMA]
    ```
-   - For **large** changes: split into groups of max 5 files / 300 lines each, run 3-5 sub-agents in parallel
+   - Execute each group with `codex exec --sandbox read-only "<PROMPT>" < /dev/null`
+   - For **large** changes: split into groups of max 5 files / 300 lines each, run 3-5 sub-agents in parallel (use Agent tool, not Bash `run_in_background`)
    - Wait for all executions to complete
 
 4. **Run cross-check review** (large only)
@@ -81,6 +83,8 @@ Iterative review gate: Codex audits (read-only), Claude Code fixes, re-review un
 
    [APPEND OUTPUT SCHEMA]
    ```
+
+   - Execute with `codex exec --sandbox read-only "<PROMPT>" < /dev/null`
 
 5. **Fix blocking issues** (fix loop, max 5 iterations)
    - If any review returns `ok: false`:
