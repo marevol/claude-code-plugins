@@ -14,41 +14,68 @@ allowed-tools:
 
 # Generate Tests
 
-Generate comprehensive tests for source files, following the project's existing test conventions. Convention analysis and test generation are delegated to the `test-engineer` subagent so framework-specific expertise (jest, pytest, JUnit, go test, etc.) is applied.
+Generate comprehensive tests for source files, following the project's existing test conventions.
+
+## Delegation Policy (MANDATORY)
+
+This skill MUST delegate test analysis and generation to the `test-engineer` subagent. The main session's only job is to:
+
+- Identify target source files (step 1)
+- Invoke the subagent via the Agent tool (step 2)
+- Confirm the generated test plan with the user and surface results
+
+The main session MUST NOT read source files to design tests, draft test cases, or write test code inline. If you start drafting `describe(...)` / `it(...)` / `@Test` blocks in the main session, STOP and dispatch the subagent.
 
 ## Instructions
 
-1. **Identify target files**
+1. **Identify target files** (main session)
    - If the user specified files, use those
    - Otherwise, run `git diff --cached --name-only` to get staged files
    - Filter to source files only (exclude test files, config files, documentation)
    - If no target files found, inform the user and stop
 
-2. **Delegate analysis and generation to `test-engineer`**
-   Dispatch the `test-engineer` subagent with the resolved target file list from step 1. Instruct it to perform steps 3-6 below (detect framework, analyze targets, generate test files, place them) and return a summary of generated tests with their coverage areas.
+2. **REQUIRED — invoke `test-engineer` subagent**
 
-   The remaining steps describe what the subagent must cover.
+   You MUST call the Agent tool with `subagent_type: test-engineer`. Do NOT analyze or write tests yourself.
 
-3. **Analyze project test patterns**
-   - Detect the test framework by examining existing test files and configuration (e.g., `jest.config.*`, `pytest.ini`, `pom.xml` test dependencies, `build.gradle` test config)
-   - Identify the test directory structure (e.g., `__tests__/`, `src/**/*.test.*`, `test/`, `tests/`)
-   - Identify naming conventions (e.g., `*.test.ts`, `*_test.go`, `Test*.java`, `test_*.py`)
-   - Review 2-3 existing test files to understand assertion style, setup/teardown patterns, and mocking approach
+   Build the subagent prompt using this template:
 
-4. **Analyze target source files**
-   - Identify public APIs, exported functions, class methods
-   - Map dependencies and collaborators that may need mocking
-   - Identify edge cases: null/empty inputs, boundary values, error conditions, async behavior
+   ```
+   You are dispatched by the create-my-test skill to generate tests.
 
-5. **Generate test files**
-   - For each target file, generate a test file that covers:
-     - **Happy path**: Normal expected behavior for each public function/method
-     - **Error cases**: Invalid inputs, exceptions, error handling paths
-     - **Boundary values**: Empty collections, zero values, max values, off-by-one scenarios
-   - Follow the project's existing patterns for imports, assertions, and test organization
-   - Use descriptive test names that explain the expected behavior
+   Repository root: {pwd}
+   Target source files: {target_file_list}
 
-6. **Place test files**
-   - Place test files according to the project's convention detected in Step 3
-   - Show the user a summary of generated test files and their coverage before writing
-   - Write the test files after user confirmation
+   Steps you must perform:
+
+   1) Detect the test framework and conventions:
+      - Examine config (jest.config.*, pytest.ini, pom.xml, build.gradle, etc.)
+      - Identify test directory layout (__tests__/, src/**/*.test.*, test/, tests/)
+      - Identify naming conventions (*.test.ts, *_test.go, Test*.java, test_*.py)
+      - Read 2-3 existing test files to capture assertion style, setup/teardown, mocking approach
+
+   2) Analyze each target source file:
+      - Public APIs, exported functions, class methods
+      - Dependencies / collaborators that may need mocking
+      - Edge cases: null/empty inputs, boundary values, error conditions, async behavior
+
+   3) Generate test files covering:
+      - Happy path for each public function/method
+      - Error cases (invalid inputs, exceptions)
+      - Boundary values (empty collections, zero, max, off-by-one)
+      Follow the project's existing patterns for imports, assertions, and organization.
+      Use descriptive test names that explain the expected behavior.
+
+   4) Place files following the convention detected in step 1.
+
+   Before writing any files to disk, return a plan to the main session:
+   - For each target source file: planned test file path + bullet list of cases.
+
+   The main session will obtain user confirmation and re-invoke you with approval to write.
+   ```
+
+3. **Confirm plan with the user, then re-invoke** (main session)
+
+   Show the test plan returned by the subagent to the user. After confirmation, re-invoke `test-engineer` with the same context plus instruction "User has approved — write the test files now and return the list of files written."
+
+   The main session MUST NOT write the test files itself.

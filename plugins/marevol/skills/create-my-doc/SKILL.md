@@ -15,51 +15,70 @@ allowed-tools:
 
 # Generate Documentation
 
-Generate appropriate documentation for code changes, including inline docs, CHANGELOG entries, and module documentation. Documentation drafting is delegated to the `tech-writer` subagent so style conventions (Javadoc, JSDoc, docstrings, godoc, rustdoc) are applied consistently.
+Generate appropriate documentation for code changes, including inline docs, CHANGELOG entries, and module documentation.
+
+## Delegation Policy (MANDATORY)
+
+This skill MUST delegate documentation drafting to the `tech-writer` subagent. The main session's only job is to:
+
+- Identify changed files and the documentation plan (steps 1-2)
+- Invoke the subagent via the Agent tool (step 3)
+- Confirm drafts with the user before applying (step 4)
+
+The main session MUST NOT draft docstrings, Javadoc, JSDoc, or CHANGELOG entries inline. If you find yourself writing `/** ... */` or `## [Unreleased]` content in the main session, STOP and dispatch the subagent.
 
 ## Instructions
 
-1. **Identify changed files**
+1. **Identify changed files** (main session)
    - If the user specified files or a scope, use those
    - Otherwise, run `git diff --cached --name-only` to get staged files
    - If no staged files, run `git diff --name-only HEAD~1` to get the last commit's changes
    - If no changes found, ask the user what to document
 
-2. **Determine documentation needs**
-   Based on the type of changes, determine which documentation to generate:
+2. **Determine documentation needs and confirm with user** (main session)
+   Decide which documentation types apply:
    - **New or modified public APIs** → Inline documentation (Javadoc / JSDoc / docstring / rustdoc)
    - **New feature or significant change** → CHANGELOG entry
    - **New module or package** → Module-level documentation
-   - Present the plan to the user and confirm which types of documentation to generate
 
-3. **Delegate generation to `tech-writer`**
-   Dispatch the `tech-writer` subagent with the changed file list and the confirmed documentation plan from step 2. Instruct it to perform steps 4-5 (inline docs, CHANGELOG entry) following the project's existing style and to return drafts for user confirmation before applying.
+   Present the plan to the user and confirm.
 
-   The remaining steps describe what the subagent must cover.
+3. **REQUIRED — invoke `tech-writer` subagent**
 
-4. **Generate inline documentation**
-   - Scan changed files for undocumented public methods, classes, functions, and interfaces
-   - Generate documentation following the project's existing style:
-     - For Java: Javadoc with `@param`, `@return`, `@throws`
-     - For TypeScript/JavaScript: JSDoc with `@param`, `@returns`, `@throws`
-     - For Python: Google-style or NumPy-style docstrings (match existing convention)
-     - For Go: Godoc-style comments
-     - For Rust: `///` doc comments with examples
-   - Include parameter descriptions, return values, exceptions, and usage examples where appropriate
+   You MUST call the Agent tool with `subagent_type: tech-writer`. Do NOT draft docs yourself.
 
-5. **Generate CHANGELOG entry**
-   - Detect existing CHANGELOG file (`CHANGELOG.md`, `CHANGES.md`, `HISTORY.md`)
-   - If no CHANGELOG exists, ask the user if one should be created
-   - Generate an entry using conventional commit categories:
-     - `### Added` — new features
-     - `### Changed` — changes to existing functionality
-     - `### Fixed` — bug fixes
-     - `### Removed` — removed features
-     - `### Security` — security-related changes
-   - Place the entry under the appropriate version heading (e.g., `## [Unreleased]`)
+   Build the subagent prompt using this template:
 
-6. **Present and apply**
-   - Show all generated documentation to the user before applying
-   - Apply changes only after user confirmation
-   - For inline docs, use Edit to insert documentation into existing files
-   - For CHANGELOG, append or insert the entry at the correct position
+   ```
+   You are dispatched by the create-my-doc skill to draft documentation.
+
+   Repository root: {pwd}
+   Changed files: {file_list}
+   Doc types requested: {inline|changelog|module} (per user-confirmed plan)
+
+   Tasks:
+
+   1) Inline documentation — for each changed file with undocumented public APIs:
+      - Java: Javadoc with @param / @return / @throws
+      - TypeScript / JavaScript: JSDoc with @param / @returns / @throws
+      - Python: Google-style or NumPy-style docstrings (match existing convention)
+      - Go: Godoc-style comments
+      - Rust: /// doc comments with examples
+      Include parameter descriptions, return values, exceptions, and usage examples where appropriate.
+      Match the project's existing style — read 2-3 existing documented files to confirm.
+
+   2) CHANGELOG entry (if requested):
+      - Detect existing CHANGELOG file (CHANGELOG.md, CHANGES.md, HISTORY.md)
+      - If none exists, return a recommendation to the main session instead of creating one
+      - Use Keep-a-Changelog categories: Added / Changed / Fixed / Removed / Security
+      - Place under the appropriate version heading (e.g., ## [Unreleased])
+
+   Return drafts WITHOUT writing to disk yet:
+   - For each inline doc: file path + the exact insertion (existing surrounding lines + new doc block)
+   - For CHANGELOG: target file, target heading, exact entry text
+   ```
+
+4. **Confirm drafts and apply** (main session)
+   Show the drafts returned by the subagent to the user. After confirmation, re-invoke `tech-writer` with instruction "User approved — apply the edits now and return the list of files written," or have the subagent itself perform the writes in a single round if the prompt permits.
+
+   The main session MUST NOT modify the files itself.

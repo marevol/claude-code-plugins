@@ -12,70 +12,85 @@ allowed-tools:
 
 # Security Scan
 
-Scan the codebase for security vulnerabilities, hardcoded secrets, and dependency risks. The actual scanning and severity classification is delegated to the `security-engineer` subagent so OWASP / secret-detection expertise is applied.
+Scan the codebase for security vulnerabilities, hardcoded secrets, and dependency risks.
+
+## Delegation Policy (MANDATORY)
+
+This skill MUST delegate the actual scan to the `security-engineer` subagent. The main session's only job is to:
+
+- Resolve the scan scope (step 1)
+- Invoke the subagent via the Agent tool (step 2)
+- Surface the subagent's report to the user
+
+The main session MUST NOT grep / read source files for vulnerability patterns itself. If you start writing your own OWASP checks or secret-detection regexes in the main session, STOP and dispatch the subagent.
 
 ## Instructions
 
-1. **Determine scan scope**
+1. **Determine scan scope** (main session)
    - If the user specified a directory or files, use those
    - If there are staged changes, scan `git diff --cached --name-only`
    - If on a feature branch, scan files changed vs the default branch with `git diff --name-only $(git merge-base HEAD origin/main)..HEAD`
    - Otherwise, ask the user for the scope
 
-2. **Delegate the full scan to `security-engineer`**
-   Dispatch the `security-engineer` subagent with the resolved scan scope from step 1. Provide it with the file list and instruct it to perform steps 3-6 below (OWASP checks, secret detection, dependency audit, structured report). Pass back the structured report verbatim.
+2. **REQUIRED — invoke `security-engineer` subagent**
 
-   The remaining steps describe what the subagent must cover.
+   You MUST call the Agent tool with `subagent_type: security-engineer`. Do NOT perform vulnerability checks, secret detection, or dependency audits yourself.
 
-3. **Check OWASP Top 10 vulnerability patterns**
-   Scan source files for common vulnerability patterns including:
-   - **Injection**: SQL string concatenation, unsanitized shell commands, template injection
-   - **Broken Authentication**: Hardcoded credentials, weak password policies, missing rate limiting
-   - **Sensitive Data Exposure**: Logging of sensitive data, unencrypted storage, missing HTTPS enforcement
-   - **XXE**: Unsafe XML parser configuration
-   - **Broken Access Control**: Missing authorization checks, IDOR patterns, directory traversal
-   - **Security Misconfiguration**: Debug mode enabled, default credentials, overly permissive CORS
-   - **XSS**: Unescaped user input in HTML output, unsafe DOM manipulation APIs
-   - **Insecure Deserialization**: Unsafe dynamic code execution, untrusted data parsing via unsafe serialization libraries
-   - **Known Vulnerabilities**: Outdated library versions with known CVEs
-   - **Insufficient Logging**: Missing audit trails for security-critical operations
-
-4. **Detect hardcoded secrets**
-   Search for patterns matching:
-   - API keys, tokens, passwords in source code (regex patterns for common formats)
-   - AWS access keys (`AKIA...`), private keys (`-----BEGIN.*PRIVATE KEY-----`)
-   - Connection strings with embedded credentials
-   - `.env` files or similar that should be gitignored but are tracked
-   - Verify `.gitignore` covers common secret files (`.env`, `*.pem`, `*.key`)
-
-5. **Check dependency security**
-   - Identify dependency manifest files (`package.json`, `pom.xml`, `requirements.txt`, `go.mod`, `Cargo.toml`, etc.)
-   - Run available audit tools if installed (`npm audit`, `pip-audit`, `cargo audit`)
-   - Flag dependencies with known vulnerabilities
-
-6. **Generate structured report**
-   Output findings organized by severity:
+   Build the subagent prompt using this template:
 
    ```
+   You are dispatched by the security-scan skill to perform a full security scan.
+
+   Repository root: {pwd}
+   Scan scope (file list): {file_list}
+
+   Cover these areas and return findings classified by severity (CRITICAL / HIGH / MEDIUM / LOW):
+
+   1) OWASP Top 10 patterns:
+      - Injection (SQL string concatenation, unsanitized shell, template injection)
+      - Broken Authentication (hardcoded credentials, weak password policy, missing rate limit)
+      - Sensitive Data Exposure (logging of sensitive data, unencrypted storage, missing HTTPS enforcement)
+      - XXE (unsafe XML parser config)
+      - Broken Access Control (missing authz, IDOR, directory traversal)
+      - Security Misconfiguration (debug mode, default creds, permissive CORS)
+      - XSS (unescaped user input, unsafe DOM APIs)
+      - Insecure Deserialization
+      - Known Vulnerabilities (outdated libs with CVEs)
+      - Insufficient Logging (missing audit trails)
+
+   2) Hardcoded secrets:
+      - API keys / tokens / passwords
+      - AWS access keys (AKIA...), private keys (-----BEGIN ... PRIVATE KEY-----)
+      - Connection strings with embedded credentials
+      - Tracked .env / *.pem / *.key files; verify .gitignore coverage
+
+   3) Dependency security:
+      - Detect manifests (package.json, pom.xml, requirements.txt, go.mod, Cargo.toml, etc.)
+      - Run audit tools if installed (npm audit, pip-audit, cargo audit, govulncheck)
+      - Flag known vulnerable dependencies
+
+   Output the report exactly in this format:
+
    ## Security Scan Report
 
    ### CRITICAL
-   - [Finding with file:line and description]
+   - <file:line> — <description> — <remediation>
 
    ### HIGH
-   - [Finding with file:line and description]
+   - ...
 
    ### MEDIUM
-   - [Finding with file:line and description]
+   - ...
 
    ### LOW
-   - [Finding with file:line and description]
+   - ...
 
    ### Summary
    - Total findings: N
    - Files scanned: N
-   - Recommendations: [prioritized action items]
+   - Recommendations: <prioritized action items>
+
+   If no issues are found, report a clean scan result.
    ```
 
-   - If no issues found, report a clean scan result
-   - For each finding, include the file path, line number, and a brief remediation suggestion
+   Surface the subagent's report verbatim to the user.

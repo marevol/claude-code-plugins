@@ -14,7 +14,18 @@ allowed-tools:
 
 # Fix CI
 
-Diagnose and fix CI failures from GitHub Actions. Heavy log analysis is delegated to the `code-investigator` subagent and the actual fix is delegated to the `devops-engineer` subagent so the main session stays focused on orchestration.
+Diagnose and fix CI failures from GitHub Actions.
+
+## Delegation Policy (MANDATORY)
+
+This skill MUST delegate the heavy work to specialized subagents using the Agent tool. The main session is only allowed to:
+
+- Run `gh` commands to fetch run metadata and logs (steps 1-2)
+- Invoke subagents via the Agent tool (steps 3-4)
+- Run local verification commands (step 5)
+- Run `git` commit/push commands (steps 6-7)
+
+The main session MUST NOT analyze logs in detail or edit source files inline. If you find yourself reading source files or planning fixes in the main session, STOP and dispatch the appropriate subagent instead.
 
 ## Instructions
 
@@ -26,35 +37,86 @@ Diagnose and fix CI failures from GitHub Actions. Heavy log analysis is delegate
 
 2. **Get failure logs**
    Run `gh run view <run-id> --log-failed` to retrieve the logs for the failed steps.
-   - If the output is very large, focus on the last 200 lines per failed job
-   - Note which job(s) and step(s) failed
+   - If the output is very large, keep the last 200 lines per failed job
+   - Note which job(s) and step(s) failed and the workflow file path
 
-3. **Analyze the failure (delegate to `code-investigator`)**
-   Dispatch the `code-investigator` subagent with a self-contained prompt containing the failed logs and the workflow file path. Ask it to:
-   - Identify the root cause across these categories: build errors (compilation/type/syntax), test failures (assertions, timeouts, flakiness), lint/format issues (ESLint, Prettier, Ruff, Black), dependency problems (missing packages, version conflicts, lockfile drift), environment issues (missing env vars, runtime versions, Docker build failures)
-   - Trace which source files / configs are implicated and report file paths and line numbers
-   - Return a structured summary: root cause, affected files, and suggested fix direction
-   - Present the root-cause summary to the user before proceeding
+3. **REQUIRED — invoke `code-investigator` subagent for root-cause analysis**
 
-4. **Apply the fix (delegate to `devops-engineer`)**
-   Dispatch the `devops-engineer` subagent with the investigation summary from step 3 plus the workflow context. Instruct it to:
-   - For dependency-related failures, check Dockerfiles, `requirements.txt`, `package.json`, lockfiles, and version pinning
-   - For test failures, read the failing test and the code under test to understand the mismatch
-   - For lint/format issues, run the formatter/linter with auto-fix if available (e.g., `npx eslint --fix`, `ruff check --fix`)
-   - If multiple failures exist, address them one at a time in order of dependency
-   - If the fix is unclear or risky, return analysis + options to the main session for user confirmation before making changes
-   - Apply edits and return a summary of changed files
+   You MUST call the Agent tool with `subagent_type: code-investigator`. Do NOT analyze the logs or read source files yourself in the main session.
 
-5. **Verify locally**
-   Run the same checks that failed in CI to confirm the fix works:
-   - Re-run the specific test suite, build command, or lint check that failed
+   Build the subagent prompt using this template (fill the placeholders):
+
+   ```
+   You are dispatched by the fix-ci skill to analyze a GitHub Actions CI failure.
+
+   Run ID: {run_id}
+   Workflow file: {workflow_path}
+   Repository root: {pwd}
+
+   Failed logs:
+   <<<
+   {log_excerpt}
+   >>>
+
+   Identify the root cause across these categories:
+   - Build errors: compilation, type, syntax
+   - Test failures: assertions, timeouts, flakiness
+   - Lint/format: ESLint, Prettier, Ruff, Black
+   - Dependency: missing packages, version conflicts, lockfile drift
+   - Environment: missing env vars, runtime versions, Docker build
+
+   Read implicated source / config files in the repo to confirm the cause.
+
+   Return a structured report:
+   - Root cause: <one or two sentences>
+   - Affected files: <path:line list>
+   - Suggested fix direction: <high-level approach, no code edits>
+   ```
+
+   After the subagent returns, show the root-cause summary to the user before continuing.
+
+4. **REQUIRED — invoke `devops-engineer` subagent to apply the fix**
+
+   You MUST call the Agent tool with `subagent_type: devops-engineer`. Do NOT use Edit / Write yourself in the main session for the fix; the subagent owns the edits.
+
+   Build the subagent prompt using this template:
+
+   ```
+   You are dispatched by the fix-ci skill to apply a fix for a CI failure.
+
+   Investigation summary (from code-investigator):
+   <<<
+   {summary_from_step_3}
+   >>>
+
+   Workflow file: {workflow_path}
+   Repository root: {pwd}
+
+   Apply the minimal fix following these rules:
+   - Dependency failures → Dockerfiles, requirements.txt, package.json, lockfiles, version pinning
+   - Test failures → read failing test and code under test, fix the real mismatch
+   - Lint/format → run linter/formatter with auto-fix (e.g. `npx eslint --fix`, `ruff check --fix`) where possible
+   - Multiple failures → fix in dependency order, smallest blast radius first
+   - If the fix is unclear or risky, return analysis + options instead of editing files
+
+   Return:
+   - Changed files: <path list>
+   - Summary of edits: <bullet list>
+   - Or, if not applied: options for the main session to surface to the user
+   ```
+
+   If the subagent returns options instead of edits, present them to the user, get a decision, and re-invoke the subagent with the chosen option. Do NOT make the edits in the main session.
+
+5. **Verify locally** (main session)
+   Re-run the same checks that failed in CI on the local copy:
+   - Re-run the specific test suite, build command, or lint check
    - If the local environment cannot replicate the CI step exactly, note any differences
 
-6. **Commit the fix**
-   Stage the changed files and commit with the format:
+6. **Commit the fix** (main session)
+   Stage the files reported by the `devops-engineer` subagent and commit:
    ```
    fix: <concise description of CI fix>
    ```
 
-7. **Push to the current branch**
+7. **Push to the current branch** (main session)
    Push the commit to the remote so CI re-runs on the fix.

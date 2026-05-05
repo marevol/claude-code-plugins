@@ -12,11 +12,21 @@ allowed-tools:
 
 # Dependency Health Check
 
-Analyze project dependencies for outdated packages, security vulnerabilities, and upgrade risks. The audit and risk analysis are delegated to the `devops-engineer` subagent so package-manager-specific tooling (npm audit, pip-audit, govulncheck, cargo audit, etc.) is run with the right expertise.
+Analyze project dependencies for outdated packages, security vulnerabilities, and upgrade risks.
+
+## Delegation Policy (MANDATORY)
+
+This skill MUST delegate the audit to the `devops-engineer` subagent. The main session's only job is to:
+
+- Detect package managers in the repo (step 1)
+- Invoke the subagent via the Agent tool (step 2)
+- Surface the report to the user
+
+The main session MUST NOT run `npm outdated`, `npm audit`, `pip-audit`, `cargo audit`, `govulncheck`, etc. itself or interpret their output. If you start parsing audit output in the main session, STOP and dispatch the subagent.
 
 ## Instructions
 
-1. **Detect package managers**
+1. **Detect package managers** (main session)
    Scan the project root for dependency manifest files:
    - **npm/yarn/pnpm**: `package.json`, `yarn.lock`, `pnpm-lock.yaml`
    - **Maven**: `pom.xml`
@@ -25,54 +35,59 @@ Analyze project dependencies for outdated packages, security vulnerabilities, an
    - **Go modules**: `go.mod`
    - **Cargo**: `Cargo.toml`
    - **Bundler**: `Gemfile`
-   - If no dependency files found, inform the user and stop
 
-2. **Delegate the audit to `devops-engineer`**
-   Dispatch the `devops-engineer` subagent with the list of detected package managers from step 1. Instruct it to perform steps 3-6 below (outdated check, security audit, major upgrade risk analysis, structured report) and return the structured report verbatim.
+   If no dependency files found, inform the user and stop.
 
-   The remaining steps describe what the subagent must cover.
+2. **REQUIRED — invoke `devops-engineer` subagent**
 
-3. **Check for outdated dependencies**
-   Run the appropriate outdated check for each detected package manager:
-   - npm: `npm outdated --json`
-   - yarn: `yarn outdated --json`
-   - pip: `pip list --outdated --format=json`
-   - Maven: `mvn versions:display-dependency-updates` (if mvn available)
-   - Gradle: `gradle dependencyUpdates` (if plugin available)
-   - Go: `go list -u -m all`
-   - Cargo: `cargo outdated` (if installed)
-   - Classify updates as: **major** (breaking), **minor** (feature), **patch** (fix)
+   You MUST call the Agent tool with `subagent_type: devops-engineer`. Do NOT run dependency tooling or analyze versions yourself.
 
-4. **Run security advisory checks**
-   Run available security audit tools:
-   - npm: `npm audit --json`
-   - yarn: `yarn audit --json`
-   - pip: `pip-audit --format=json` (if installed)
-   - Go: `govulncheck ./...` (if installed)
-   - Cargo: `cargo audit` (if installed)
-   - If audit tools are not installed, note this in the report
-
-5. **Analyze major upgrade risks**
-   For dependencies with major version updates available:
-   - Identify how many major versions behind the project is
-   - Note dependencies that are unmaintained or deprecated
-   - Flag dependencies with known breaking changes in newer versions
-
-6. **Generate structured report**
-   Output findings organized by urgency:
+   Build the subagent prompt using this template:
 
    ```
+   You are dispatched by the check-my-deps skill to perform a full dependency health audit.
+
+   Repository root: {pwd}
+   Detected package managers: {list_with_manifest_paths}
+
+   Tasks:
+
+   1) Outdated check — run the appropriate command per package manager:
+      - npm: npm outdated --json
+      - yarn: yarn outdated --json
+      - pip: pip list --outdated --format=json
+      - Maven: mvn versions:display-dependency-updates (if available)
+      - Gradle: gradle dependencyUpdates (if plugin available)
+      - Go: go list -u -m all
+      - Cargo: cargo outdated (if installed)
+      Classify updates as major / minor / patch.
+
+   2) Security audit — run available tools:
+      - npm: npm audit --json
+      - yarn: yarn audit --json
+      - pip: pip-audit --format=json (if installed)
+      - Go: govulncheck ./... (if installed)
+      - Cargo: cargo audit (if installed)
+      Note tools not installed in the report (do NOT install them).
+
+   3) Major upgrade risk analysis:
+      - How many major versions behind for each
+      - Unmaintained / deprecated packages
+      - Known breaking changes in newer versions
+
+   Output the report exactly in this format:
+
    ## Dependency Health Report
 
    ### Security Vulnerabilities
-   - [package@version]: [vulnerability description] → upgrade to [fixed version]
+   - <package@version>: <description> → upgrade to <fixed version>
 
    ### Major Version Updates Available
-   - [package]: [current] → [latest] (N major versions behind)
-     - Breaking changes: [brief summary if known]
+   - <package>: <current> → <latest> (N major versions behind)
+     - Breaking changes: <brief summary if known>
 
    ### Minor/Patch Updates Available
-   - [package]: [current] → [latest]
+   - <package>: <current> → <latest>
 
    ### Up to Date
    - N dependencies are current
@@ -82,5 +97,7 @@ Analyze project dependencies for outdated packages, security vulnerabilities, an
    - Total dependencies: N
    - Security issues: N (critical: N, high: N, moderate: N, low: N)
    - Outdated: N major, N minor, N patch
-   - Recommended priority actions: [ordered list]
+   - Recommended priority actions: <ordered list>
    ```
+
+   Surface the subagent's report verbatim to the user.
