@@ -12,11 +12,22 @@ allowed-tools:
 
 # Dependency Health Check
 
-Analyze project dependencies for outdated packages, security vulnerabilities, and upgrade risks. The audit and risk analysis are delegated to the `devops-engineer` subagent so package-manager-specific tooling (npm audit, pip-audit, govulncheck, cargo audit, etc.) is run with the right expertise.
+Analyze project dependencies for outdated packages, security vulnerabilities, and upgrade risks. The main session acts strictly as an **orchestrator**: it detects manifest files, dispatches the subagent, and presents the result. All audit, risk analysis, and reporting MUST be performed by the subagent.
+
+## Subagent Delegation (MANDATORY)
+
+This skill REQUIRES subagent delegation. The main session MUST NOT perform the following work inline:
+
+- **Outdated checks, security audits, major-upgrade risk analysis, and report generation** — MUST dispatch `devops-engineer` via the `Agent` tool (step 2).
+
+Rules:
+- Do NOT skip the dispatch even if only one package manager is detected. Always delegate.
+- Do NOT silently fall back to running audit tools (`npm audit`, `pip-audit`, etc.) yourself if the dispatch fails. Surface the error to the user and ask how to proceed.
+- The main session may only detect manifest files. Running audit tooling and analyzing results is the subagent's job.
 
 ## Instructions
 
-1. **Detect package managers**
+1. **Detect package managers** (main session)
    Scan the project root for dependency manifest files:
    - **npm/yarn/pnpm**: `package.json`, `yarn.lock`, `pnpm-lock.yaml`
    - **Maven**: `pom.xml`
@@ -27,12 +38,17 @@ Analyze project dependencies for outdated packages, security vulnerabilities, an
    - **Bundler**: `Gemfile`
    - If no dependency files found, inform the user and stop
 
-2. **Delegate the audit to `devops-engineer`**
-   Dispatch the `devops-engineer` subagent with the list of detected package managers from step 1. Instruct it to perform steps 3-6 below (outdated check, security audit, major upgrade risk analysis, structured report) and return the structured report verbatim.
+2. **Run the audit — MUST dispatch `devops-engineer`**
+   Invoke the `Agent` tool with `subagent_type: devops-engineer`. Do NOT run audit tooling yourself in the main session.
 
-   The remaining steps describe what the subagent must cover.
+   Provide a self-contained prompt that includes:
+   - The list of detected package managers and their manifest paths from step 1
+   - The repository root path
+   - Any user-specified focus (e.g., "security only", "skip major upgrades")
 
-3. **Check for outdated dependencies**
+   Instruct the subagent to perform steps 3-6 below and return the final structured report verbatim. The main session passes the report through to the user without re-running any audit.
+
+3. **Check for outdated dependencies** (subagent)
    Run the appropriate outdated check for each detected package manager:
    - npm: `npm outdated --json`
    - yarn: `yarn outdated --json`
@@ -43,7 +59,7 @@ Analyze project dependencies for outdated packages, security vulnerabilities, an
    - Cargo: `cargo outdated` (if installed)
    - Classify updates as: **major** (breaking), **minor** (feature), **patch** (fix)
 
-4. **Run security advisory checks**
+4. **Run security advisory checks** (subagent)
    Run available security audit tools:
    - npm: `npm audit --json`
    - yarn: `yarn audit --json`
@@ -52,13 +68,13 @@ Analyze project dependencies for outdated packages, security vulnerabilities, an
    - Cargo: `cargo audit` (if installed)
    - If audit tools are not installed, note this in the report
 
-5. **Analyze major upgrade risks**
+5. **Analyze major upgrade risks** (subagent)
    For dependencies with major version updates available:
    - Identify how many major versions behind the project is
    - Note dependencies that are unmaintained or deprecated
    - Flag dependencies with known breaking changes in newer versions
 
-6. **Generate structured report**
+6. **Generate structured report** (subagent)
    Output findings organized by urgency:
 
    ```
