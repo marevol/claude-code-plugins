@@ -7,11 +7,12 @@ allowed-tools:
   - Read
   - Grep
   - Glob
+  - Agent(security-engineer)
 ---
 
 # Security Scan
 
-Scan the codebase for security vulnerabilities, hardcoded secrets, and dependency risks.
+Scan the codebase for security vulnerabilities, hardcoded secrets, and dependency risks. The actual scanning and severity classification is delegated to the `security-engineer` subagent so OWASP / secret-detection expertise is applied.
 
 ## Instructions
 
@@ -21,7 +22,12 @@ Scan the codebase for security vulnerabilities, hardcoded secrets, and dependenc
    - If on a feature branch, scan files changed vs the default branch with `git diff --name-only $(git merge-base HEAD origin/main)..HEAD`
    - Otherwise, ask the user for the scope
 
-2. **Check OWASP Top 10 vulnerability patterns**
+2. **Delegate the full scan to `security-engineer`**
+   Dispatch the `security-engineer` subagent with the resolved scan scope from step 1. Provide it with the file list and instruct it to perform steps 3-6 below (OWASP checks, secret detection, dependency audit, structured report). Pass back the structured report verbatim.
+
+   The remaining steps describe what the subagent must cover.
+
+3. **Check OWASP Top 10 vulnerability patterns**
    Scan source files for common vulnerability patterns including:
    - **Injection**: SQL string concatenation, unsanitized shell commands, template injection
    - **Broken Authentication**: Hardcoded credentials, weak password policies, missing rate limiting
@@ -34,7 +40,7 @@ Scan the codebase for security vulnerabilities, hardcoded secrets, and dependenc
    - **Known Vulnerabilities**: Outdated library versions with known CVEs
    - **Insufficient Logging**: Missing audit trails for security-critical operations
 
-3. **Detect hardcoded secrets**
+4. **Detect hardcoded secrets**
    Search for patterns matching:
    - API keys, tokens, passwords in source code (regex patterns for common formats)
    - AWS access keys (`AKIA...`), private keys (`-----BEGIN.*PRIVATE KEY-----`)
@@ -42,12 +48,12 @@ Scan the codebase for security vulnerabilities, hardcoded secrets, and dependenc
    - `.env` files or similar that should be gitignored but are tracked
    - Verify `.gitignore` covers common secret files (`.env`, `*.pem`, `*.key`)
 
-4. **Check dependency security**
+5. **Check dependency security**
    - Identify dependency manifest files (`package.json`, `pom.xml`, `requirements.txt`, `go.mod`, `Cargo.toml`, etc.)
    - Run available audit tools if installed (`npm audit`, `pip-audit`, `cargo audit`)
    - Flag dependencies with known vulnerabilities
 
-5. **Generate structured report**
+6. **Generate structured report**
    Output findings organized by severity:
 
    ```

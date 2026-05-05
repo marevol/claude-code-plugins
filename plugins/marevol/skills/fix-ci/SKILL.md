@@ -9,11 +9,12 @@ allowed-tools:
   - Glob
   - Write
   - Edit
+  - Agent(code-investigator, devops-engineer)
 ---
 
 # Fix CI
 
-Diagnose and fix CI failures from GitHub Actions.
+Diagnose and fix CI failures from GitHub Actions. Heavy log analysis is delegated to the `code-investigator` subagent and the actual fix is delegated to the `devops-engineer` subagent so the main session stays focused on orchestration.
 
 ## Instructions
 
@@ -28,22 +29,21 @@ Diagnose and fix CI failures from GitHub Actions.
    - If the output is very large, focus on the last 200 lines per failed job
    - Note which job(s) and step(s) failed
 
-3. **Analyze the failure**
-   Identify the root cause from the logs. Common categories:
-   - **Build errors**: compilation failures, type errors, syntax errors
-   - **Test failures**: failing assertions, timeouts, flaky tests
-   - **Lint/format issues**: ESLint, Prettier, Ruff, Black violations
-   - **Dependency problems**: missing packages, version conflicts, lockfile drift
-   - **Environment issues**: missing env vars, wrong runtime versions, Docker build failures
-   - Present a brief summary of the root cause before proceeding
+3. **Analyze the failure (delegate to `code-investigator`)**
+   Dispatch the `code-investigator` subagent with a self-contained prompt containing the failed logs and the workflow file path. Ask it to:
+   - Identify the root cause across these categories: build errors (compilation/type/syntax), test failures (assertions, timeouts, flakiness), lint/format issues (ESLint, Prettier, Ruff, Black), dependency problems (missing packages, version conflicts, lockfile drift), environment issues (missing env vars, runtime versions, Docker build failures)
+   - Trace which source files / configs are implicated and report file paths and line numbers
+   - Return a structured summary: root cause, affected files, and suggested fix direction
+   - Present the root-cause summary to the user before proceeding
 
-4. **Apply the fix**
-   Edit the relevant files to resolve the failure.
+4. **Apply the fix (delegate to `devops-engineer`)**
+   Dispatch the `devops-engineer` subagent with the investigation summary from step 3 plus the workflow context. Instruct it to:
    - For dependency-related failures, check Dockerfiles, `requirements.txt`, `package.json`, lockfiles, and version pinning
    - For test failures, read the failing test and the code under test to understand the mismatch
    - For lint/format issues, run the formatter/linter with auto-fix if available (e.g., `npx eslint --fix`, `ruff check --fix`)
    - If multiple failures exist, address them one at a time in order of dependency
-   - If the fix is unclear or risky, present your analysis and proposed options to the user before making changes
+   - If the fix is unclear or risky, return analysis + options to the main session for user confirmation before making changes
+   - Apply edits and return a summary of changed files
 
 5. **Verify locally**
    Run the same checks that failed in CI to confirm the fix works:
