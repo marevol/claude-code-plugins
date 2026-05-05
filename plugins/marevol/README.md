@@ -34,13 +34,12 @@ Slash commands for common development workflows:
 |---|---|
 | `/create-my-commit` | Commit staged files with conventional commit messages |
 | `/create-my-pr` | Create a branch from staged files and submit a pull request |
-| `/create-my-test` | Generate tests for staged or specified source files |
-| `/create-my-doc` | Generate documentation for changed or specified code |
-| `/create-my-adr` | Generate an Architecture Decision Record (ADR) |
 | `/check-my-deps` | Check dependency health, outdated packages, and security advisories |
 | `/security-scan` | Scan code for security vulnerabilities and hardcoded secrets |
 | `/codex-review` | Review gate using Codex CLI (read-only) to iterate review and fix until convergence |
 | `/gemini-review` | Review gate using Gemini CLI (read-only) to iterate review and fix until convergence |
+| `/fix-ci` | Diagnose and fix GitHub Actions CI failures by fetching logs and applying fixes |
+| `/java-source-code` | Fetch and display Java source for third-party dependency classes not in the project |
 
 ## Installation
 
