@@ -7,11 +7,12 @@ allowed-tools:
   - Read
   - Grep
   - Glob
+  - Agent(devops-engineer)
 ---
 
 # Dependency Health Check
 
-Analyze project dependencies for outdated packages, security vulnerabilities, and upgrade risks.
+Analyze project dependencies for outdated packages, security vulnerabilities, and upgrade risks. The audit and risk analysis are delegated to the `devops-engineer` subagent so package-manager-specific tooling (npm audit, pip-audit, govulncheck, cargo audit, etc.) is run with the right expertise.
 
 ## Instructions
 
@@ -26,7 +27,12 @@ Analyze project dependencies for outdated packages, security vulnerabilities, an
    - **Bundler**: `Gemfile`
    - If no dependency files found, inform the user and stop
 
-2. **Check for outdated dependencies**
+2. **Delegate the audit to `devops-engineer`**
+   Dispatch the `devops-engineer` subagent with the list of detected package managers from step 1. Instruct it to perform steps 3-6 below (outdated check, security audit, major upgrade risk analysis, structured report) and return the structured report verbatim.
+
+   The remaining steps describe what the subagent must cover.
+
+3. **Check for outdated dependencies**
    Run the appropriate outdated check for each detected package manager:
    - npm: `npm outdated --json`
    - yarn: `yarn outdated --json`
@@ -37,7 +43,7 @@ Analyze project dependencies for outdated packages, security vulnerabilities, an
    - Cargo: `cargo outdated` (if installed)
    - Classify updates as: **major** (breaking), **minor** (feature), **patch** (fix)
 
-3. **Run security advisory checks**
+4. **Run security advisory checks**
    Run available security audit tools:
    - npm: `npm audit --json`
    - yarn: `yarn audit --json`
@@ -46,13 +52,13 @@ Analyze project dependencies for outdated packages, security vulnerabilities, an
    - Cargo: `cargo audit` (if installed)
    - If audit tools are not installed, note this in the report
 
-4. **Analyze major upgrade risks**
+5. **Analyze major upgrade risks**
    For dependencies with major version updates available:
    - Identify how many major versions behind the project is
    - Note dependencies that are unmaintained or deprecated
    - Flag dependencies with known breaking changes in newer versions
 
-5. **Generate structured report**
+6. **Generate structured report**
    Output findings organized by urgency:
 
    ```

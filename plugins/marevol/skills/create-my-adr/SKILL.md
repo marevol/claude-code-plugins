@@ -8,11 +8,12 @@ allowed-tools:
   - Grep
   - Glob
   - Write
+  - Agent(solution-architect)
 ---
 
 # Generate Architecture Decision Record
 
-Create a new ADR following the project's existing conventions or standard ADR format.
+Create a new ADR following the project's existing conventions or standard ADR format. Drafting Context / Decision / Consequences / Alternatives sections is delegated to the `solution-architect` subagent.
 
 ## Instructions
 
@@ -33,8 +34,14 @@ Create a new ADR following the project's existing conventions or standard ADR fo
    - **Decision**: What is the change being proposed or decided?
    - **Alternatives considered**: What other options were evaluated?
 
-4. **Generate ADR document**
-   Create the ADR with the following sections:
+4. **Delegate ADR drafting to `solution-architect`**
+   Dispatch the `solution-architect` subagent with the inputs gathered in step 3 (title, context, decision, alternatives) plus the detected naming convention and target file path from steps 1-2. Instruct it to:
+   - Produce the ADR Markdown body using the template in step 5 below
+   - Write substantive Context / Decision / Consequences / Alternatives sections grounded in trade-off analysis
+   - Return the final Markdown content for the main session to write to disk in step 6
+
+5. **ADR document template**
+   The subagent must produce content matching this template:
 
    ```markdown
    # {number}. {title}
@@ -65,6 +72,6 @@ Create a new ADR following the project's existing conventions or standard ADR fo
    - Use the naming convention detected from existing ADRs
    - If no convention exists, use `{number}-{kebab-case-title}.md` (e.g., `0001-use-postgresql.md`)
 
-5. **Write ADR file**
-   - Write the file to the ADR directory
+6. **Write ADR file**
+   - Write the file produced by the `solution-architect` subagent to the ADR directory
    - Display the file path and a summary of the ADR
