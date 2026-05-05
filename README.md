@@ -20,26 +20,25 @@ A curated marketplace of plugins for [Claude Code](https://docs.anthropic.com/en
 
 ### marevol
 
-A comprehensive Claude Code plugin providing 14 specialized agents and 9 development workflow skills for software engineering teams.
+A comprehensive Claude Code plugin providing 13 specialized agents and 9 development workflow skills for software engineering teams. Agents are model-tuned: deep-reasoning roles use Opus, code/document generation roles use Sonnet.
 
 #### Agents
 
-| Agent | Description |
-|---|---|
-| **solution-architect** | System design, architecture planning, and technology selection |
-| **backend-engineer** | Server-side development across multiple languages and frameworks |
-| **frontend-engineer** | Client-side development with modern web technologies |
-| **fullstack-engineer** | End-to-end feature development spanning frontend and backend |
-| **code-reviewer** | Comprehensive code review, quality analysis, and technical debt evaluation |
-| **test-engineer** | Test strategy design, test implementation, and coverage analysis |
-| **tester** | QA testing, test execution, browser-based validation, and accessibility auditing |
-| **security-engineer** | Security assessment, vulnerability analysis, and threat modeling |
-| **performance-engineer** | Performance profiling, optimization, and benchmarking |
-| **devops-engineer** | CI/CD pipelines, infrastructure as code, and cloud operations |
-| **ml-engineer** | Machine learning model development, training, and deployment |
-| **ai-researcher** | AI/ML technology research, LLM evaluation, and RAG architecture |
-| **uiux-designer** | UX design, accessibility standards, and design system methodology |
-| **tech-writer** | Technical documentation, API docs, and architecture diagrams |
+| Agent | Model | Description |
+|---|---|---|
+| **code-investigator** | sonnet | Map architecture, call graphs, and conventions in existing codebases |
+| **solution-architect** | opus | System design, architecture planning, and technology selection |
+| **backend-engineer** | sonnet | Server-side development across multiple languages and frameworks |
+| **frontend-engineer** | sonnet | Client-side development with modern web technologies |
+| **code-reviewer** | opus | Comprehensive code review, quality analysis, and technical debt evaluation |
+| **test-engineer** | sonnet | Test strategy design, test implementation, and coverage analysis |
+| **security-engineer** | opus | Security assessment, vulnerability analysis, and threat modeling |
+| **performance-engineer** | opus | Performance profiling, optimization, and benchmarking |
+| **devops-engineer** | sonnet | CI/CD pipelines, infrastructure as code, and cloud operations |
+| **ml-engineer** | sonnet | Machine learning model development, training, and deployment |
+| **ai-researcher** | opus | AI/ML technology research, LLM evaluation, and RAG architecture |
+| **tech-writer** | sonnet | Technical documentation, API docs, and architecture diagrams |
+| **tech-translator** | sonnet | Translate technical documents between languages preserving accuracy and formatting |
 
 #### Skills
 
@@ -67,7 +66,7 @@ claude-code-plugins/
 │   └── marevol/
 │       ├── .claude-plugin/
 │       │   └── plugin.json       # Plugin configuration
-│       ├── agents/               # 14 specialized agent definitions
+│       ├── agents/               # 13 specialized agent definitions
 │       ├── skills/               # 9 development workflow skills
 │       └── README.md             # Plugin documentation
 ├── LICENSE                       # Apache License 2.0

@@ -4,8 +4,9 @@ description: >
   Evaluates AI/ML technologies with structured comparison matrices and designs RAG/agent
   architectures. Use when selecting models, comparing embedding strategies, designing AI
   system architecture, or planning AI feature rollout.
-tools: Read, Grep, Glob, Bash, WebFetch
+tools: Read, Bash, WebFetch
 color: cyan
+model: opus
 ---
 
 # AI Researcher

@@ -4,8 +4,9 @@ description: >
   Produces C4 architecture diagrams, ADRs, and technology comparison matrices with trade-off
   analysis. Use before implementation when making architecture decisions, selecting
   technologies, or planning system migrations.
-tools: Read, Grep, Glob, Bash
+tools: Read, Bash
 color: blue
+model: opus
 ---
 
 # Solution Architect

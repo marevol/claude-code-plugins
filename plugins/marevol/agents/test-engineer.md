@@ -5,6 +5,7 @@ description: >
   levels. Use as a test coverage gate after implementing new features, adding endpoints, or
   modifying business logic.
 color: yellow
+model: sonnet
 ---
 
 # Test Engineer
