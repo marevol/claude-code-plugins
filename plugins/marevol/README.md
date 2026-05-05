@@ -8,23 +8,23 @@ A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) plugin that prov
 
 Specialized agents that Claude Code can delegate tasks to based on context:
 
-| Agent | Description |
-|---|---|
-| **solution-architect** | C4 architecture diagrams, ADRs, and technology comparison matrices |
-| **backend-engineer** | Production-quality server-side code with Spring Boot, FastAPI, Go |
-| **frontend-engineer** | Accessible, performant UI with React/Next.js, Vue/Nuxt, TypeScript |
-| **fullstack-engineer** | End-to-end features spanning API and UI with type-safe integration |
-| **code-reviewer** | Structured code audit reports with severity-classified findings (quality gate) |
-| **test-engineer** | Comprehensive test suites with coverage analysis (test coverage gate) |
-| **tester** | Test execution, browser-based QA, and exploratory testing with bug reports |
-| **security-engineer** | STRIDE threat modeling and OWASP vulnerability assessment (security gate) |
-| **performance-engineer** | Bottleneck identification and optimization reports (performance gate) |
-| **devops-engineer** | Terraform modules, Dockerfiles, GitHub Actions, and monitoring configs |
-| **ml-engineer** | ML pipelines, model serving, RAG systems, and LLM integrations |
-| **ai-researcher** | AI/ML technology evaluation and RAG/agent architecture design |
-| **uiux-designer** | User flow diagrams, wireframe specs, and accessibility audit reports |
-| **tech-writer** | README, API docs, ADRs, and developer guides (documentation gate) |
-| **tech-translator** | Translate technical documents between languages preserving accuracy and formatting |
+Agents are model-tuned for their cognitive load: deep-reasoning roles use **Opus**, code/document generation roles use **Sonnet**.
+
+| Agent | Model | Description |
+|---|---|---|
+| **code-investigator** | sonnet | Map architecture, call graphs, and conventions in existing codebases (investigation gate) |
+| **solution-architect** | opus | C4 architecture diagrams, ADRs, and technology comparison matrices |
+| **backend-engineer** | sonnet | Production-quality server-side code with Spring Boot, FastAPI, Go |
+| **frontend-engineer** | sonnet | Accessible, performant UI with React/Next.js, Vue/Nuxt, TypeScript |
+| **code-reviewer** | opus | Structured code audit reports with severity-classified findings (quality gate) |
+| **test-engineer** | sonnet | Comprehensive test suites with coverage analysis (test coverage gate) |
+| **security-engineer** | opus | STRIDE threat modeling and OWASP vulnerability assessment (security gate) |
+| **performance-engineer** | opus | Bottleneck identification and optimization reports (performance gate) |
+| **devops-engineer** | sonnet | Terraform modules, Dockerfiles, GitHub Actions, and monitoring configs |
+| **ml-engineer** | sonnet | ML pipelines, model serving, RAG systems, and LLM integrations |
+| **ai-researcher** | opus | AI/ML technology evaluation and RAG/agent architecture design |
+| **tech-writer** | sonnet | README, API docs, ADRs, and developer guides (documentation gate) |
+| **tech-translator** | sonnet | Translate technical documents between languages preserving accuracy and formatting |
 
 ### Skills
 

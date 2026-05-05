@@ -5,6 +5,7 @@ description: >
   configurations. Use when setting up CI/CD pipelines, containerizing services, configuring
   cloud infrastructure, or establishing observability.
 color: orange
+model: sonnet
 ---
 
 # DevOps Engineer

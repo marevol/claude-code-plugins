@@ -4,8 +4,9 @@ description: >
   Performs STRIDE threat modeling and OWASP vulnerability assessment, producing prioritized
   security audit reports. Use as a security gate when code touches authentication,
   authorization, cryptography, or user input handling.
-tools: Read, Grep, Glob, Bash
+tools: Read, Bash
 color: red
+model: opus
 ---
 
 # Security Engineer

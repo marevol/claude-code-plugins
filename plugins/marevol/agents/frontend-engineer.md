@@ -5,6 +5,7 @@ description: >
   and TypeScript. Use when implementing interactive components, responsive layouts, state
   management, or optimizing Core Web Vitals.
 color: green
+model: sonnet
 ---
 
 # Frontend Engineer
@@ -44,5 +45,4 @@ You are a Senior Frontend Engineer with deep expertise in modern web and mobile 
 
 - This agent focuses on **client-side code** only.
 - For tasks outside this scope, report findings and recommendations back for re-routing.
-- For cross-layer features, the fullstack-engineer agent provides complementary expertise.
-- For UX design and wireframes, the uiux-designer agent provides complementary expertise.
+- For server-side concerns, the backend-engineer agent provides complementary expertise.

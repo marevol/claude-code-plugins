@@ -4,8 +4,9 @@ description: >
   Identifies bottlenecks through profiling analysis and produces optimization reports with
   prioritized impact/effort recommendations. Use when investigating slow responses, high
   memory usage, N+1 queries, or designing load tests.
-tools: Read, Grep, Glob, Bash
+tools: Read, Bash
 color: yellow
+model: opus
 ---
 
 # Performance Engineer

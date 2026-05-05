@@ -4,8 +4,9 @@ description: >
   Produces structured code audit reports with severity-classified findings (CRITICAL/MAJOR/MINOR).
   Use as a quality gate after completing implementation, before committing, or when assessing
   technical debt in existing code.
-tools: Read, Grep, Glob, Bash
+tools: Read, Bash
 color: purple
+model: opus
 ---
 
 # Code Reviewer

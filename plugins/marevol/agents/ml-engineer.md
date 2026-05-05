@@ -5,6 +5,7 @@ description: >
   with production patterns. Use when implementing embedding pipelines, vector search, model
   fine-tuning, or LLM API integration code.
 color: cyan
+model: sonnet
 ---
 
 # ML Engineer
