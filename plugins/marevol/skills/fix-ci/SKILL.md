@@ -1,6 +1,6 @@
 ---
 name: fix-ci
-description: Diagnose and fix CI failures by fetching failed run logs from GitHub Actions, analyzing root causes, applying fixes, verifying locally, and pushing. Use when CI is red, a GitHub Actions workflow has failed, or the user says "fix ci", "ci is broken", or "pipeline failed".
+description: Diagnose and fix GitHub Actions CI failures by fetching failed run logs, applying fixes, and pushing. Trigger when CI is red, a workflow has failed, the build is broken, or the user says "fix ci", "ci is broken", or "pipeline failed".
 user-invocable: true
 allowed-tools:
   - Bash
