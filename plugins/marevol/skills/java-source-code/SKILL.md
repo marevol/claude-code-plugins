@@ -1,9 +1,6 @@
 ---
 name: java-source-code
-description: >
-  Use to fetch and display Java source code for a class that is NOT part of the current project (i.e. comes from a third-party dependency).
-  TRIGGER when: user asks to show, read, or trace into a Java class/method that is not defined in the project's own sources, references a third-party class like "show me RestTemplate source" or "how does ObjectMapper work internally", or wants to browse a dependency's sources JAR.
-  DO NOT TRIGGER when: the target class exists in the current project's source tree (use Read/Grep instead).
+description: Fetch and display Java source code for third-party Maven/Gradle dependency classes (not project sources). Trigger when the user asks to show, read, or trace into a dependency class — e.g. "show RestTemplate source", "how does ObjectMapper work internally", or browse a sources JAR. Skip if the class exists in the project's own source tree.
 user-invocable: true
 allowed-tools:
   - Bash
